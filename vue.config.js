@@ -1,6 +1,6 @@
 module.exports={
-configurewebpack: {
-resolve:{
+   configureWebpack: {
+    resolve:{
      //别名
      alias:{
        'assets':'@/assets',
