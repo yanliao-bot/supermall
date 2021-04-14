@@ -23,7 +23,7 @@ export default {
   // },
   computed:{
      isActive (){
-       
+      
      return !(this.$route.path.indexOf(this.link) !==-1)
           //  console.log(this.link);
           //  console.log(this.$route.link);     
