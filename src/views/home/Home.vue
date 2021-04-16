@@ -8,8 +8,119 @@
       <home-swiper :banners='banners'></home-swiper>
        <RecommendView :recommends='recommends'/>
        <feature-view />
+         <tab-control :titles="['流行','新款','精选']" class="tabcon"> </tab-control>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>
+          <div>列表</div>  
    </div>
- 
+   
 </template>
 
 <script>
@@ -18,10 +129,9 @@ import NavBar from 'components/common/navbar/NavBar'
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
+import TabControl from 'components/content/TabControl/TabContrl'
 
 import {getHomeMutidata} from 'network/home'
-
-
 // import Swiper from 'components/common/swiper/Swiper'
 // import SwiperItem from 'components/common/swiper/SwiperItem'
  
@@ -31,7 +141,8 @@ export default {
       NavBar,
       HomeSwiper,
       RecommendView,
-      FeatureView
+      FeatureView,
+      TabControl
    },
    data(){
     return {
@@ -91,10 +202,11 @@ position: sticky;
 top:0;
 z-index: 1000;
  }
- #home {
-  
-  padding-bottom: 100px;
-
+ 
+ .tabcon {
+ position:sticky;
+ top:44px;
+ z-index: 1000;
 
  }
 </style>
