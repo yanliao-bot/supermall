@@ -1,13 +1,100 @@
 <template>
-  <h2>首页</h2>
+   <div id="home">
+     
+     <nav-bar class="home-nav">
+      <div slot="center">购物车</div>
+      
+     </nav-bar>
+      <home-swiper :banners='banners'></home-swiper>
+       <RecommendView :recommends='recommends'/>
+       <feature-view />
+   </div>
+ 
 </template>
 
 <script>
+import NavBar from 'components/common/navbar/NavBar'
+// import {request} from 'network/request'
+import HomeSwiper from './childComps/HomeSwiper'
+import RecommendView from './childComps/RecommendView'
+import FeatureView from './childComps/FeatureView'
+
+import {getHomeMutidata} from 'network/home'
+
+
+// import Swiper from 'components/common/swiper/Swiper'
+// import SwiperItem from 'components/common/swiper/SwiperItem'
+ 
 export default {
-   name:"Home" 
-}
+   name:"Home" ,
+   components:{
+      NavBar,
+      HomeSwiper,
+      RecommendView,
+      FeatureView
+   },
+   data(){
+    return {
+      
+     banners:[],
+     recommends:[]
+
+
+    }
+  
+
+   },
+   created(){
+   //   request(
+   // { url:'/home/multidata'}
+//   function success(res) {
+    
+//     console.log(res);
+    
+
+//    },
+//    function failture(err) {
+    
+//     console.log(err);
+
+//    })}
+   //   ).then(res =>{
+   //    console.log(res);
+   //   }).catch(err=>{
+   //   console.log(err);
+     
+
+
+   //   })
+     getHomeMutidata().then(
+     res=> {
+      console.log(res);
+      this.banners = res.data.banner.list 
+       this.recommends = res.data.recommend.list 
+      
+
+     }
+
+     )
+     
+     
+     
+     
+     }}
 </script>
 
 <style>
+ .home-nav {
+ background-color:var(--color-tint);
+ color: #fff;
+position: sticky;
+top:0;
+z-index: 1000;
+ }
+ #home {
+  
+  padding-bottom: 100px;
 
+
+ }
 </style>
