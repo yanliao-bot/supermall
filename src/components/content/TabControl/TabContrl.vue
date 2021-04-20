@@ -27,7 +27,7 @@ name:"tabcontrl",
     itemClick(index){
 
       this.currentIndex = index;
-
+      this.$emit('tabClick',index)
     } 
 
 
@@ -42,6 +42,7 @@ name:"tabcontrl",
 .tabcontrl {
  display:flex;
  text-align: center;
+ background-color:#fff;
  
 }
 .tabcontrl-item {
