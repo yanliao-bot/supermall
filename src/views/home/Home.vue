@@ -4,7 +4,7 @@
      <nav-bar class="home-nav">
       <div slot="center">购物车</div>
       </nav-bar>
-      <scroll class="cont" ref="scroll">
+      <scroll class="cont" ref="scroll" :probe-type="3" @scroll="contertscroll" @pullingUp="contertPullingUp" :pulling-up="true">
       <home-swiper :banners='banners'></home-swiper>
        <RecommendView :recommends='recommends'/>
        <feature-view />
@@ -12,7 +12,7 @@
          <good-list :goods="showGoods"></good-list>
          </scroll>
         
-         <back-top @click.native="backClick"></back-top>
+         <back-top @click.native="backClick" v-show="isShow"></back-top>
    </div>
   
 </template>
@@ -57,8 +57,9 @@ export default {
         'sell':{page:0,list:[]}
 
      },
-     currenttype:'pop'
-
+     currenttype:'pop',
+     isShow:false
+   
     }
   
 
@@ -158,15 +159,41 @@ export default {
       console.log(res.data);
        this.good[type].list.push(...res.data.list);
        this.good[type].page+=1;
-
+       this.$refs.scroll.scroll.finishPullUp()
      })
      },
     backClick(){
      this.$refs.scroll.scrollTo(0,0,800)
+    
+     this.$refs.scroll.scroll.refresh()
+
+    },
+
+   contertscroll(position){
+     if (-position.y>2000){
+       this.isShow = true }
+     else {
+     this.isShow = false
+
+
+
+     }
+
+
+
+    },
+    contertPullingUp(){
+     console.log('上拉加载更多');
+     
+     this.getHomeGoods1(this.currenttype)
+
+      
 
 
 
     }
+
+
 
 
 
