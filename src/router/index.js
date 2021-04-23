@@ -4,6 +4,7 @@ const Home = () => import ('../views/home/Home')
 const Category = () => import ('../views/category/Category')
 const Cate = () => import ('../views/cart/Cart')
 const Profile = () => import ('../views/profile/Profile')
+const Detail = () => import ('../views/detail/Detail') 
 
 //   const originalPush = VueRouter.prototype.push
 
@@ -50,6 +51,13 @@ Vue.use(VueRouter)
         component:Profile,
         meta: {
             title: '我的'
+        }
+    },
+    {
+        path:'/detail/:iid',
+        component:Detail,
+        meta: {
+            title: '详细'
         }
     }
     

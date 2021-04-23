@@ -57,7 +57,7 @@ this.scroll.on('pullingUp',()=>{
 
   this.$emit('pullingUp')
   
-//    bscroll.finishPullUp()
+  //  this.scroll.scroll.finishPullUp()
 
  })
 
@@ -68,9 +68,14 @@ this.scroll.on('pullingUp',()=>{
  },
  methods:{
  scrollTo (x,y,time=800){
-    this.scroll.scrollTo(x,y,time)
+   this.scroll&&this.scroll.scrollTo(x,y,time)
+ },
+ refresh(){
+   this.scroll && this.scroll.refresh()
+  
 
 
+ 
 
 
  }

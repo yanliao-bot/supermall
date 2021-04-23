@@ -20,7 +20,7 @@ name:"tabcontrl",
    data(){
    return {
      currentIndex:0
-
+     
    }    
    },
    methods:{

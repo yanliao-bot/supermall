@@ -1,20 +1,41 @@
 <template>
-   <div id="home" >
-     
-     <nav-bar class="home-nav">
+  <div id="home">
+    <nav-bar class="home-nav">
       <div slot="center">购物车</div>
-      </nav-bar>
-      <scroll class="cont" ref="scroll" :probe-type="3" @scroll="contertscroll" @pullingUp="contertPullingUp" :pulling-up="true">
-      <home-swiper :banners='banners'></home-swiper>
-       <RecommendView :recommends='recommends'/>
-       <feature-view />
-         <tab-control :titles="['流行','新款','精选']" class="tabcon" @tabClick='tabClick' > </tab-control>
-         <good-list :goods="showGoods"></good-list>
-         </scroll>
-        
-         <back-top @click.native="backClick" v-show="isShow"></back-top>
-   </div>
-  
+    </nav-bar>
+    <tab-control
+        :titles="['流行', '新款', '精选']"
+      
+        @tabClick="tabClick"
+        ref="tabcontrll1"
+        class="tab"
+         v-show="this.isTabFixed"
+      >
+      </tab-control>
+    <scroll
+      class="cont"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contertscroll"
+      @pullingUp="contertPullingUp"
+      :pull-up-load="true"
+    >
+      <home-swiper :banners="banners" @imageloadfinish="imageloadfinish"></home-swiper>
+      <RecommendView :recommends="recommends" />
+      <feature-view />
+      <tab-control
+        :titles="['流行', '新款', '精选']"
+      
+        @tabClick="tabClick"
+        ref="tabcontrll2"
+        :class="{fixed:this.isTabFixed}"
+      >
+      </tab-control>
+      <good-list :goods="showGoods"></good-list>
+    </scroll>
+
+    <back-top @click.native="backClick" v-show="isShow"></back-top>
+  </div>
 </template>
 
 <script>
@@ -58,8 +79,10 @@ export default {
 
      },
      currenttype:'pop',
-     isShow:false
-   
+     isShow:false,
+     tabOffsetTop:0,
+     isTabFixed:false,
+       satY:0
     }
   
 
@@ -74,7 +97,7 @@ export default {
 
     }
 
-
+   
 
 
 
@@ -109,10 +132,63 @@ export default {
       this.getHomeGoods1('pop')
       this.getHomeGoods1('new')
       this.getHomeGoods1('sell')
+
+
+
+
+
+
+       
+    
+
+
+
+
      
+     },
+     mounted(){
+        const refresh = this.debounce (this.$refs.scroll.refresh,50)
+     
+       this.$bus.$on('itemImageLoad',()=>{
+
+      //  this.$refs.scroll && this.$refs.scroll.refresh()
+        refresh()
+      
+
+
+       })
+      //  this.tabOffsetTop = this.$refs.tabcontrll.$el.offsetTop
+    // console.log(this.$refs.tabcontrll);
+       
+
+
      },
      
     methods:{
+       debounce(fu,delay ){
+        let time = null ;
+
+        return  function (...args) {
+           if(time){clearTimeout(time)}
+     
+           time=setTimeout(
+           ()=>{
+                console.log('----');
+        
+             fu.apply(this,args)
+           },delay)
+
+
+
+
+
+        }
+      
+
+
+
+       },
+  
    
     tabClick(index){
     
@@ -127,8 +203,8 @@ export default {
           this.currenttype ='sell'
 
      }
-  
-    
+    this.$refs.tabcontrll2.currentIndex=index
+    this.$refs.tabcontrll1.currentIndex=index
 
 
 
@@ -174,12 +250,23 @@ export default {
        this.isShow = true }
      else {
      this.isShow = false
-
-
-
      }
+       
+      if((-position.y) >this.$refs.tabcontrll2.$el.offsetTop){
+         this.isTabFixed =true
+      }
+      else{
 
+      this.isTabFixed =false
 
+      }
+
+     
+    //  console.log((-position.y)>this.$refs.tabcontrll2.$el.offsetTop);
+     
+    //  console.log(-position.y);
+    //  console.log(this.$refs.tabcontrll2.$el.offsetTop);
+        
 
     },
     contertPullingUp(){
@@ -191,15 +278,33 @@ export default {
 
 
 
-    }
+    },
+     imageloadfinish () {
+        console.log( this.$refs.tabcontrll2.$el.offsetTop);
+
+
+     }
+      
 
 
 
+    },
+    activated(){
+      
+      this.$refs.scroll.scroll.scrollTo(0,this.satY,0)
+      this.$refs.scroll.refresh()
 
 
-    }
+    },
      
-     
+     deactivated(){
+
+             this.satY  =  this.$refs.scroll.scroll.y
+
+
+
+
+     }
      
      
      
@@ -214,34 +319,44 @@ export default {
 <style scoped>
 #home {
   height: 100vh;
- position: relative;
+  position: relative;
 }
- .home-nav {
- background-color:var(--color-tint);
- color: #fff;
-position: sticky;
-top:0;
-z-index: 1000;
- }
- 
- .tabcon {
- position:sticky;
- top:44px;
- z-index: 1000;
+.home-nav {
+  background-color: var(--color-tint);
+  color: #fff;
+  /* position: sticky;
+  top: 0; */
+  z-index: 1000;
+}
 
- }
- .cont {
-  
-   width: 100%;
-   /* height:calc(100%-93px); */
-   /* height:300px; */
-   position: absolute;
-   top:44px;
-   bottom: 49px;
+.tabcon {
+  /* position: sticky; */
+  top: 44px;
+  z-index: 1000;
+}
+.cont {
+  width: 100%;
+  /* height:calc(100%-93px); */
+  /* height:300px; */
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  overflow: hidden;
+  /* overflow-y:scroll ; */
+  /* background-color: red; */
+}
+/* .fixed {
+   position:relative;
    left:0;
-   overflow: hidden;
- /* overflow-y:scroll ; */
-    /* background-color: red; */
- }
-
+   right:0; 
+   top:0px;
+} */
+.tab {
+  z-index:9;
+position:relative;
+    left:0;
+   right:0; 
+   top:0;
+}
 </style>
