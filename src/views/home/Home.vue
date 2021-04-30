@@ -149,7 +149,7 @@ export default {
      mounted(){
         const refresh = this.debounce (this.$refs.scroll.refresh,50)
      
-       this.$bus.$on('itemImageLoad',()=>{
+       this.$bus.$on('homeitemImageLoad',(e)=>{
 
       //  this.$refs.scroll && this.$refs.scroll.refresh()
         refresh()
@@ -173,7 +173,7 @@ export default {
      
            time=setTimeout(
            ()=>{
-                console.log('----');
+                // console.log('----');
         
              fu.apply(this,args)
            },delay)
@@ -222,7 +222,7 @@ export default {
     getHomeMutidata1(){
       getHomeMutidata().then(
       res=> {
-      console.log(res);
+      // console.log(res);
       this.banners = res.data.banner.list 
        this.recommends = res.data.recommend.list 
      }
@@ -279,8 +279,8 @@ export default {
 
 
     },
-     imageloadfinish () {
-        console.log( this.$refs.tabcontrll2.$el.offsetTop);
+     imageloadfinish () {   
+        // console.log( this.$refs.tabcontrll2.$el.offsetTop);
 
 
      }
