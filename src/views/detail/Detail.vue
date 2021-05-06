@@ -1,8 +1,8 @@
 <template>
   <div id="detail">
       <!-- 导航 -->
-     <detail-nav-bar class="detail-nav" @titleClick='titleClick'></detail-nav-bar>
-     <Scroll class="content" ref="scroll">
+     <detail-nav-bar class="detail-nav" @titleClick='titleClick' ref="nav"></detail-nav-bar>
+     <Scroll class="content" ref="scroll"  :probe-type ="3"   @scroll = "contentscroll">
      <detail-swiper :top-images='topImages'></detail-swiper>
      <detail-base-info :goods='goods'></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -11,6 +11,8 @@
       <detail-commend-info ref='commend'    :comment-info="commentInfo" ></detail-commend-info>
        <goods-list  ref='rescommend' :goods='recommend'></goods-list>
       </Scroll>
+      <back-top @click.native="backClick" v-show="isDetailShow"></back-top>
+      <detail-bottom-bar />
   </div>
 </template>
 
@@ -21,8 +23,10 @@
   import DetailShopInfo from "./childComps/DetailShopInfo"
   import DetailParmsInfo from "./childComps/DetailParmsInfo"
   import DetailCommendInfo from "./childComps/DetailCommendInfo"
+  import DetailBottomBar  from  "./childComps/DetailBottomBar"
   import GoodsList from 'components/content/goods/GoodList'
    import Scroll from 'components/common/scroll/Scroll'
+   import BackTop from 'components/content/backTop/BackTop'
    import DetailGoodsInfo from './childComps/DetailGoodsInfo'
   import {getDetail,Goods,Shop,GoodsParam,getRemmend,getDebounce}   from 'network/detail'
 export default {
@@ -36,7 +40,9 @@ export default {
      DetailGoodsInfo,
      DetailParmsInfo,
      DetailCommendInfo,
-     GoodsList 
+     GoodsList,
+    DetailBottomBar,
+    BackTop
   },
  data(){
  return {
@@ -49,7 +55,9 @@ export default {
    commentInfo:{},
    recommend:[],
    themeTopYs:[0,1000,2000,3000,4000],
-   getThemeY:null
+   getThemeY:null,
+   thiscurrentindex:0,
+    isDetailShow:false,
 
    
  }
@@ -76,7 +84,7 @@ export default {
        this.paramsInfo = new GoodsParam(data.itemParams.info,data.itemParams.rule)
       if(data.rate.cRate !== 0){
         this.commentInfo =data.rate.list[0]
-
+       
 
 
       }
@@ -173,7 +181,39 @@ methods:{
 
 
 
-  }
+  },
+
+  contentscroll(position) {
+     const positonY = - position.y
+     for(let i=0;i<this.themeTopYs.length;i++){
+      //  positonY>this.themeTopYs[i]&&positonY<this.themeTopYs[i+1]
+          if( this.thiscurrentindex!==i &&(i<this.themeTopYs.length-1 && positonY>=this.themeTopYs[i]&&positonY<this.themeTopYs[i+1])||(i===this.themeTopYs.length-1&&positonY>=this.themeTopYs[i])){
+                this.thiscurrentindex = i;
+                 this.$refs.nav.currentindex =  this.thiscurrentindex 
+              
+
+
+
+          }
+
+
+
+
+
+
+     }
+      if (-position.y>2000){
+       this.isDetailShow = true }
+     else {
+     this.isDetailShow = false
+     }
+  },
+   backClick(){
+     this.$refs.scroll.scrollTo(0,0,800)
+    
+     this.$refs.scroll.scroll.refresh()
+
+    },
  
 
 
