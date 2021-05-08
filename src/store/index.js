@@ -1,13 +1,17 @@
 import Vue from 'vue'
 // import { set } from 'vue/types/umd'
 import  vuex from 'vuex'
+import  getters from './getters'     
 
 Vue.use(vuex)
 
 
 const  store = new vuex.Store({
     //保存状态
-   state:{},
+   state:{
+    CartList:[]
+   },
+   getters,
 
    mutations:{
        // 相当与methords 唯一能改state方式
@@ -29,9 +33,44 @@ const  store = new vuex.Store({
   //     引入变量   ['变量']=[属性]
   //     对于引出的组件,直接 this.$store.commit(属性)来表示
     // vue要求我们mutation的方法必须是同步方法,同步时,devtool能帮助我们很好的捕捉mutation的快照,而如果异步则不是很好的追踪这个操作什么时候会被完成
+  //   addCart(context,payLoad){
+  //     // state.CartList.push(payLoad)
+  //     //  let  oldPrice = null
+  //     // for ( let item of state.CartList ){
+  //     //    if(item.ild===payLoad.ild){ 
+  //     //     oldPrice = item
+  //     //    }
+  //     // }
+  //     return new Promise(function(resolve,reject){
+  //     payLoad.checked = true
+      
+         
+  //     let oldPrice = context.CartList.find(function(item){
+     
+        
+  //      return  item.iid ===payLoad.iid
+  
+  //     }) 
+      
+      
+  //    if(oldPrice){
+
+  //      oldPrice.count += 1 
+
+  //     resolve('当前的全部商品+1')
+
+  //    } else {
+  //     payLoad.count = 1
+  //     context.CartList.push(payLoad)
+       
+  //     reject('添加了新的商品')
+  //    }
     
-
-
+  //   //  console.log(state.CartList);
+   
+  // })
+  //  }
+  
 
    },
    actions:{
@@ -61,17 +100,54 @@ const  store = new vuex.Store({
     // }
     // }
     // 对应组件可以使用then()进行回调
+    addCart(context,payLoad){
+      // state.CartList.push(payLoad)
+      //  let  oldPrice = null
+      // for ( let item of state.CartList ){
+      //    if(item.ild===payLoad.ild){ 
+      //     oldPrice = item
+      //    }
+      // }
+      return new Promise(function(resolve){
+      payLoad.checked = true
+      
+         
+      let oldPrice = context.state.CartList.find(function(item){
+     
+        
+       return  item.iid ===payLoad.iid
+  
+      }) 
+      
+      
+     if(oldPrice){
+
+       oldPrice.count += 1 
+
+      resolve('当前的全部商品+1')
+
+     } else {
+      payLoad.count = 1
+      context.state.CartList.push(payLoad)
+       
+      resolve('添加了新的商品')
+     }
+    
+    //  console.log(state.CartList);
+   
+  })
+   }
 
 
    },
-   getters:{
-       // 单个组件的计算属性
-    //也是用state当参数
-    // 第一个参数为state,第二个参数为getters
-   // 接受传递的函数参数,但必须使用闭包函数
+  //  getters:{
+  //      // 单个组件的计算属性
+  //   //也是用state当参数
+  //   // 第一个参数为state,第二个参数为getters
+  //  // 接受传递的函数参数,但必须使用闭包函数
    
 
-   } ,
+  //  } ,
    modules:{
     //  再可a:以分模块
     a: {

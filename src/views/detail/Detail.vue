@@ -12,7 +12,8 @@
        <goods-list  ref='rescommend' :goods='recommend'></goods-list>
       </Scroll>
       <back-top @click.native="backClick" v-show="isDetailShow"></back-top>
-      <detail-bottom-bar />
+      <detail-bottom-bar  @addCart="addCart"/>
+      <toast :message="message" :show="show" />
   </div>
 </template>
 
@@ -28,6 +29,7 @@
    import Scroll from 'components/common/scroll/Scroll'
    import BackTop from 'components/content/backTop/BackTop'
    import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+   import Toast   from "components/content/toast/Toast"
   import {getDetail,Goods,Shop,GoodsParam,getRemmend,getDebounce}   from 'network/detail'
 export default {
  name:"Detail",
@@ -42,7 +44,9 @@ export default {
      DetailCommendInfo,
      GoodsList,
     DetailBottomBar,
-    BackTop
+    BackTop,
+     Toast,
+
   },
  data(){
  return {
@@ -58,7 +62,8 @@ export default {
    getThemeY:null,
    thiscurrentindex:0,
     isDetailShow:false,
-
+    message:'',
+    show:false
    
  }
 
@@ -68,7 +73,7 @@ export default {
    {
      this.ild =this.$route.params.iid
 
-
+ 
 
 
 
@@ -215,7 +220,30 @@ methods:{
 
     },
  
+   addCart(){
+     const   production = {}
+     production.image= this.topImages[0]
+      production.title = this.goods.title
+      production.desc= this.goods.desc
+       production.price = this.goods.realPrice
+      production.iid = this.ild
+    //  console.log(production);
+      this.$store.dispatch('addCart',production).then(res=>{
+         
+           this.show=true;
+         this.message = res 
+         setTimeout(function(){
+           this.show=false
+           this.message=''
 
+         },1500)
+
+
+      console.log(res);
+      })
+       
+    
+   }
 
 
 
