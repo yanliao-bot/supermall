@@ -1,5 +1,5 @@
 <template>
-  <div class="toast">
+  <div class="toast" v-show="show">
       <div>{{message}}</div>
       </div>
 </template>
@@ -11,13 +11,15 @@ export default {
     message:{
      type:String,
      default:''
+    },
+   show:{
+     type:Boolean,
+     default:false
 
 
 
 
-
-    }
-
+   }
 
 
 

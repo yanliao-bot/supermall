@@ -25,6 +25,7 @@ export default {
      CartButtonBar
     
    },
+ 
       computed:{
     //  ...mapGetters(['cartgory'])
         ... mapGetters({'length':'cartlist'})
